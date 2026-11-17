@@ -1,0 +1,92 @@
+{
+  "dashboard_url": "",
+  "max_alerts_per_scan": 30,
+  "priority_keywords": [
+    "software",
+    "backend",
+    "site reliability",
+    "sre",
+    "platform",
+    "cloud",
+    "security",
+    "infrastructure",
+    "devops",
+    "machine learning",
+    "ai",
+    "data engineer"
+  ],
+  "priority_companies": [
+    "Palantir",
+    "Airwallex",
+    "CSIT"
+  ],
+  "sources": [
+    {
+      "type": "lever",
+      "slug": "palantir",
+      "company": "Palantir"
+    },
+    {
+      "type": "lever",
+      "slug": "csit",
+      "company": "CSIT"
+    },
+    {
+      "type": "ashby",
+      "slug": "airwallex",
+      "company": "Airwallex"
+    },
+    {
+      "type": "ashby",
+      "slug": "blocktech",
+      "company": "BlockTech"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "simplifynext",
+      "company": "SimplifyNext"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "okx",
+      "company": "OKX"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "gitlab",
+      "company": "GitLab"
+    },
+    {
+      "type": "smartrecruiters",
+      "slug": "Grab",
+      "company": "Grab"
+    },
+    {
+      "type": "smartrecruiters",
+      "slug": "SAPITBusinessSysteme",
+      "company": "SAP"
+    },
+    {
+      "type": "smartrecruiters",
+      "slug": "NCS3",
+      "company": "NCS"
+    },
+    {
+      "type": "smartrecruiters",
+      "slug": "BoschGroup",
+      "company": "Bosch"
+    }
+  ],
+  "adzuna_queries": [
+    "software engineer intern",
+    "software engineer graduate",
+    "new grad software",
+    "site reliability engineer intern",
+    "cloud devops graduate",
+    "cybersecurity intern",
+    "data engineer intern",
+    "data scientist intern",
+    "machine learning intern",
+    "technology graduate"
+  ]
+}

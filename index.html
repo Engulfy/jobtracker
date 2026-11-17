@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SG Tech Jobs — Internships & New Graduate</title>
+<style>
+:root{color-scheme:light;--bg:#f6f8fb;--fg:#172638;--muted:#5c6e80;--border:#dbe2ea;--link:#0b65b9}
+*{box-sizing:border-box}body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;background:var(--bg);color:var(--fg)}
+main{max-width:1220px;margin:auto;padding:32px 20px}h1{font-size:clamp(25px,4vw,35px);margin:0 0 8px}.muted{color:var(--muted)}
+.sub{margin:0 0 28px}.stats{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.stat{background:white;border:1px solid var(--border);border-radius:12px;padding:16px 20px;min-width:142px}
+.stat strong{font-size:27px;display:block}.stat span{font-size:12px;color:var(--muted)}
+.filters{display:grid;grid-template-columns:minmax(210px,2fr) repeat(3,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+input,select{width:100%;border:1px solid var(--border);background:#fff;color:var(--fg);border-radius:9px;font-size:14px;padding:12px}
+.actions{display:flex;gap:16px;align-items:center;margin:10px 0 20px;flex-wrap:wrap}a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+.table-wrap{background:white;border:1px solid var(--border);border-radius:12px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:14px 13px;border-bottom:1px solid #edf0f4;text-align:left;vertical-align:top}th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:#fdfefe}td:nth-child(2){min-width:270px}td:nth-child(3){min-width:150px}tr:last-child td{border-bottom:0}
+.adzuna-credit{display:inline-flex;min-width:116px;min-height:23px;align-items:center;justify-content:center;font-size:12px;border:1px solid #dbe2ea;border-radius:5px;margin:6px 0 0;color:#0b65b9}
+.pill{font-size:11px;background:#edf4ff;border-radius:99px;padding:4px 8px;display:inline-block;white-space:nowrap}.old{background:#f5f5f5;color:#677788}.date{white-space:nowrap;color:var(--muted)}
+footer{margin:20px 0;color:var(--muted);font-size:12px}
+@media(max-width:720px){.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}td,th{padding:10px 9px}}
+</style>
+</head>
+<body><main>
+<h1>🇸🇬 Singapore Tech Jobs</h1>
+<p class="sub muted">Internships, new graduate and early-career tech roles. Company career feeds plus an optional aggregator. <strong>First seen ≠ official posting date.</strong></p>
+<div class="stats" id="stats"></div>
+<div class="filters">
+<input id="q" placeholder="Search company, title or location…" aria-label="Search jobs">
+<select id="category" aria-label="Job type"><option value="">All job types</option><option>Internship</option><option>New grad / entry-level</option></select>
+<select id="status" aria-label="Status"><option value="Open">Open only</option><option value="">All statuses</option><option value="Unverified">Unverified</option><option value="Closed">Closed</option></select>
+<select id="sort" aria-label="Sort"><option value="first_seen">Recently discovered</option><option value="score">Most relevant</option><option value="posted_at">Source date (if supplied)</option><option value="company">Company A-Z</option></select>
+</div>
+<div class="actions"><label><input type="checkbox" id="recent" style="width:auto"> Discovered in past 7 days</label><a href="jobs.csv" download>Download all jobs (CSV)</a><span id="updated" class="muted"></span></div>
+<div class="table-wrap"><table><thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Type</th><th>First seen (SGT)</th><th>Status</th></tr></thead><tbody id="jobs"><tr><td colspan="6">Loading jobs…</td></tr></tbody></table></div>
+<footer>Official employer listings are preferred. Aggregator listings can disappear from search windows without closing, so their status may become "Unverified" after 14 days. Confirm the application is still open on the employer's site.</footer>
+</main><script>
+const $=id=>document.getElementById(id);let all=[];
+const dt=v=>v?new Intl.DateTimeFormat('en-SG',{timeZone:'Asia/Singapore',day:'2-digit',month:'short',year:'numeric'}).format(new Date(v)):'—';
+function cell(row,value){const td=document.createElement('td');if(value instanceof Node)td.appendChild(value);else td.textContent=value;row.appendChild(td);return td}
+function render(){
+ const q=$('q').value.toLowerCase().trim(),cat=$('category').value,status=$('status').value,sort=$('sort').value,recent=$('recent').checked;
+ const cutoff=Date.now()-7*86400000;
+ const rows=all.filter(j=>(!q||[j.company,j.title,j.location].join(' ').toLowerCase().includes(q))&&(!cat||j.category===cat)&&(!status||j.status===status)&&(!recent||Date.parse(j.first_seen)>=cutoff));
+ rows.sort((a,b)=>sort==='score'?(Number(b.score)-Number(a.score)||b.first_seen.localeCompare(a.first_seen)):sort==='company'?a.company.localeCompare(b.company):(b[sort]||'').localeCompare(a[sort]||''));
+ $('jobs').replaceChildren();if(!rows.length){const tr=document.createElement('tr');cell(tr,'No matching roles found.').colSpan=6;$('jobs').append(tr)}
+ for(const j of rows){const tr=document.createElement('tr');cell(tr,j.company);const a=document.createElement('a');a.href=j.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=j.title;const role=document.createElement('div');role.append(a);if(j.provider==='Adzuna'){const credit=document.createElement('div');const source=document.createElement('a');source.className='adzuna-credit';source.href='https://www.adzuna.co.uk/';source.target='_blank';source.rel='noopener noreferrer';source.textContent='Adzuna';credit.append(source);role.append(credit)}cell(tr,role);cell(tr,j.location);const t=document.createElement('span');t.className='pill';t.textContent=j.category;cell(tr,t);const when=cell(tr,dt(j.first_seen));when.className='date';const s=document.createElement('span');s.textContent=j.status;s.className='pill '+(j.status==='Open'?'':'old');cell(tr,s);$('jobs').append(tr)}
+ $('stats').innerHTML='';const vals=[['Open roles',all.filter(x=>x.status==='Open').length],['New in 7 days',all.filter(x=>x.status==='Open'&&Date.parse(x.first_seen)>=cutoff).length],['Tracked companies',new Set(all.filter(x=>x.status==='Open').map(x=>x.company)).size],['Matching filters',rows.length]];
+ for(const [label,n] of vals){const div=document.createElement('div');div.className='stat';const strong=document.createElement('strong');strong.textContent=n;const span=document.createElement('span');span.textContent=label;div.append(strong,span);$('stats').append(div)}
+}
+for(const name of ['q','category','status','sort','recent'])$(name).addEventListener('input',render);
+fetch('./jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('No jobs.json yet');return r.json()}).then(data=>{all=data.jobs||[];$('updated').textContent='Last scan: '+dt(data.last_scan)+' SGT';render()}).catch(e=>{$('jobs').textContent='No data yet. Run the workflow once to generate listings. '+e.message});
+</script></body></html>
