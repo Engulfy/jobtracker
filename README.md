@@ -3,13 +3,13 @@
 Automated, no-login tracker for Singapore-based tech **internships, new-graduate and entry-level jobs**.
 
 - **First run:** imports existing matching positions into a database and sends a single Telegram roundup of up to 15 highlights.
-- **Later runs:** alerts only when a new (or reopened) requisition is discovered. No alerts when nothing changed.
+- **Later runs:** alerts only when a new (or reopened) requisition is discovered. A daily summary is sent even when nothing changed (configurable with `summary_interval_hours`; set to `0` to disable).
 - **Browsable archive:** `docs/index.html` is a searchable GitHub Pages dashboard. Downloadable `docs/jobs.csv` retains current and historical jobs.
-- **Discovery sources:** Greenhouse, Lever, Ashby, SmartRecruiters official employer job APIs, plus **optional Adzuna Singapore** for broader coverage.
-- **Schedule:** every 4 hours (01:17, 05:17, 09:17, 13:17, 17:17, 21:17 **Singapore time**). If you don't want night alerts, mute your bot chat overnight or edit the cron to `17 1,5,9,13 * * *` (four daytime scans).
+- **Discovery sources:** 62 employer boards using Greenhouse, Lever, Ashby, SmartRecruiters, Workday, Amazon careers and Google public career search pages, plus **optional Adzuna Singapore** employer searches. See [COVERAGE.md](COVERAGE.md) for direct coverage and gaps.
+- **Schedule:** every 2 hours, at 01:17, 03:17, 05:17, 07:17, 09:17, 11:17, 13:17, 15:17, 17:17, 19:17, 21:17 and 23:17 **Singapore time**. New/reopened jobs trigger alerts; a summary is delivered on the first successful scan at least 24 hours after the last summary. GitHub scheduling may be delayed.
 - **Storage:** `data/jobs.json` is committed automatically to your GitHub repository. It survives scheduled runs and lets the app avoid duplicate notifications.
 
-The code includes initial sources covering Palantir, CSIT, Airwallex, BlockTech, SimplifyNext, OKX, GitLab, Grab, SAP, NCS and Bosch. **These are feed targets, not a guarantee of currently matching roles.** Optional Adzuna substantially broadens the company set. You can add more boards in `config.json`.
+Direct feeds include Google, Amazon/AWS, NVIDIA, Salesforce, Adobe, Intel, HP, HPE, PayPal, Cisco, Samsung, Micron and other employers. **Microsoft, Meta, Apple, TikTok, Shopee and several others currently depend on optional Adzuna searches and are not guaranteed coverage.** See [the full coverage list](COVERAGE.md), [all 63 requested employers](EMPLOYERS.md), and [LinkedIn alert setup](LINKEDIN.md).
 
 ## Setup (about 10 minutes of configuration)
 
@@ -133,7 +133,7 @@ Board URL → slug:
 | Ashby | `jobs.ashbyhq.com/{slug}` | `api.ashbyhq.com/posting-api/job-board/{slug}` |
 | SmartRecruiters | `jobs.smartrecruiters.com/{slug}/…` | `api.smartrecruiters.com/v1/companies/{slug}/postings` |
 
-Other ATS providers, particularly Workday, may require a custom connector. The optional Adzuna query covers some of these jobs without scraping their portals, but does **not** guarantee complete coverage.
+Workday boards use `type: "workday"` with the verified `slug` (tenant), `cluster` (such as `wd5`) and `site` fields. Other ATS providers may require a custom connector. The optional Adzuna query covers some of these jobs without scraping their portals, but does **not** guarantee complete coverage.
 
 ## Customizing alerts
 
@@ -141,11 +141,13 @@ In `config.json`:
 
 - `priority_keywords`: Boost relevant technical role titles in alerts.
 - `priority_companies`: Boost companies you particularly want to target.
+- `summary_interval_hours`: Hours between periodic Telegram summaries (default 24; 0 disables). Summaries include open-role totals and employer feed health.
 - `max_alerts_per_scan`: Limits new alerts per run (the rest remain pending, not dropped).
+- `adzuna_companies`: Employer-filtered searches for major tech companies; requires Adzuna credentials and uses one request per company per scan.
 - `adzuna_queries`: Broad queries sent to Adzuna, one page of up to 50 newest matches per query.
 - `sources`: Add/remove employers' official job boards.
 
-The tracker intentionally excludes senior/staff/principal/management-level roles, non-Singapore locations, and generic job titles without early-career evidence. This is **precision-oriented**, so some ambiguously titled junior roles will be missed. You can relax the `eligible()` rules if you want wider coverage.
+The tracker intentionally excludes senior/staff/principal/management-level roles, non-Singapore locations, and generic job titles without early-career evidence. Descriptions with explicit early experience requirements (such as 1-3 years or 2 years) also qualify. SmartRecruiters descriptions are fetched for Singapore technical roles to improve matching. This is **precision-oriented**, so some ambiguously titled junior roles will be missed. You can relax the `eligible()` rules if you want wider coverage.
 
 ## Data semantics and limitations
 

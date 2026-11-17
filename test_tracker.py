@@ -18,6 +18,11 @@ def job(title, *, location="Singapore, Singapore", description="", provider="Lev
 
 
 class FilterTests(unittest.TestCase):
+    def test_early_experience_variants(self):
+        for description in ["1-3 years of relevant experience", "2 years of software engineering experience", "0 to 1 years experience"]:
+            self.assertTrue(tracker.eligible(job("Software Engineer", description=description)))
+        self.assertFalse(tracker.eligible(job("Software Engineer", description="5 years of experience required")))
+
     def test_intern(self):
         x = job("Software Engineer, Internship")
         self.assertTrue(tracker.eligible(x))
@@ -72,6 +77,16 @@ class FilterTests(unittest.TestCase):
 
 
 class SourceTests(unittest.TestCase):
+    def test_smartrecruiters_reads_description_for_generic_title(self):
+        fake = Mock()
+        fake.get.return_value.json.side_effect = [
+            {"totalFound": 1, "content": [{"id": "123", "name": "Software Engineer", "location": {"city": "Singapore"}}]},
+            {"jobAd": {"sections": {"qualifications": {"text": "<p>1-2 years of experience</p>"}}}},
+        ]
+        rows = tracker.fetch_smartrecruiters(fake, {"slug": "demo", "company": "Demo"})
+        self.assertTrue(tracker.eligible(rows[0]))
+        self.assertEqual(fake.get.call_count, 2)
+
     def test_greenhouse_format(self):
         fake = Mock()
         fake.get.return_value.json.return_value = {"jobs": [{"id": 3, "title": "SRE Intern",
@@ -157,6 +172,25 @@ class StateTests(unittest.TestCase):
 
 
 class IntegrationTests(unittest.TestCase):
+    def test_daily_summary_without_new_jobs_and_no_repeat(self):
+        a = job("Software Engineer Intern")
+        a.update(status="Open", notified=True, first_seen="2026-11-16T00:00:00+00:00", category="Internship")
+        db = {"jobs": {a["uid"]: a}, "initial_digest_sent": True,
+              "last_summary_at": "2026-11-16T00:00:00+00:00", "last_scan": "2026-11-17T00:00:00+00:00"}
+        with patch.dict("os.environ", {"TELEGRAM_BOT_TOKEN": "test", "TELEGRAM_CHAT_ID": "123"}), patch.object(tracker, "telegram_message") as send:
+            tracker.alert_jobs(Mock(), db, {"summary_interval_hours": 24}, True)
+            self.assertEqual(send.call_count, 1)
+            self.assertIn("daily update", send.call_args.args[3])
+            tracker.alert_jobs(Mock(), db, {"summary_interval_hours": 24}, True)
+            self.assertEqual(send.call_count, 1)
+
+    def test_failed_summary_is_retried(self):
+        db = {"jobs": {}, "initial_digest_sent": True, "last_scan": "2026-11-17T00:00:00+00:00"}
+        with patch.dict("os.environ", {"TELEGRAM_BOT_TOKEN": "test", "TELEGRAM_CHAT_ID": "123"}), patch.object(tracker, "telegram_message", side_effect=RuntimeError("offline")):
+            with self.assertRaises(RuntimeError):
+                tracker.alert_jobs(Mock(), db, {}, True)
+        self.assertNotIn("last_summary_at", db)
+
     def test_two_runs_export_and_persist(self):
         with tempfile.TemporaryDirectory() as root:
             fake_job = job("Software Engineer Intern")

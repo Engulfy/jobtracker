@@ -1,0 +1,467 @@
+[
+  {
+    "company": "Jane Street",
+    "careers_url": "https://www.janestreet.com/join-jane-street/open-roles/?type=internship&location=singapore",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:janestreet"
+    ]
+  },
+  {
+    "company": "Citadel",
+    "careers_url": "https://www.citadel.com/careers/open-opportunities",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "HRT",
+    "careers_url": "https://www.hudsonrivertrading.com/careers/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:wehrtyou"
+    ]
+  },
+  {
+    "company": "Jump Trading",
+    "careers_url": "https://www.jumptrading.com/careers/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:jumptrading"
+    ]
+  },
+  {
+    "company": "Optiver",
+    "careers_url": "https://optiver.com/working-at-optiver/internships/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:optiverus"
+    ]
+  },
+  {
+    "company": "QRT",
+    "careers_url": "https://www.qube-rt.com/careers/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:quberesearchandtechnologies"
+    ]
+  },
+  {
+    "company": "Squarepoint",
+    "careers_url": "https://www.squarepoint-capital.com/early-careers/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:squarepointcapital"
+    ],
+    "note": "Supplied early-careers page returned 404 during review; the working direct job feed is used."
+  },
+  {
+    "company": "Virtu",
+    "careers_url": "https://www.virtu.com/careers/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:virtu"
+    ]
+  },
+  {
+    "company": "Point72",
+    "careers_url": "https://point72.com/students-early-career/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:point72"
+    ]
+  },
+  {
+    "company": "Marshall Wace",
+    "careers_url": "https://www.mwam.com/join-us/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:mw-tech-grad",
+      "greenhouse:mwinternshipprogram"
+    ]
+  },
+  {
+    "company": "OGP",
+    "careers_url": "https://www.open.gov.sg/careers/what-we-do/internships/",
+    "coverage": "direct",
+    "sources": [
+      "recruitee:opengovernmentproducts"
+    ]
+  },
+  {
+    "company": "Meta",
+    "careers_url": "https://www.metacareers.com/careerprograms/students",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Apple",
+    "careers_url": "https://jobs.apple.com/en-us/search?team=internships-STDNT-INTRN",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Stripe",
+    "careers_url": "https://stripe.com/jobs/university",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:stripe"
+    ]
+  },
+  {
+    "company": "LinkedIn",
+    "careers_url": "https://careers.linkedin.com/pathways-programs/internships",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Coinbase",
+    "careers_url": "https://www.coinbase.com/careers/internships",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:coinbase"
+    ]
+  },
+  {
+    "company": "TikTok",
+    "careers_url": "https://lifeattiktok.com/earlycareers",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Microsoft",
+    "careers_url": "https://careers.microsoft.com/students/",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Amazon / AWS",
+    "careers_url": "https://www.amazon.jobs/teams/internships-for-students",
+    "coverage": "direct",
+    "sources": [
+      "amazon:amazon"
+    ]
+  },
+  {
+    "company": "Cloudflare",
+    "careers_url": "https://www.cloudflare.com/careers/early-talent/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:cloudflare"
+    ]
+  },
+  {
+    "company": "Datadog",
+    "careers_url": "https://careers.datadoghq.com/early-careers/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:datadog"
+    ]
+  },
+  {
+    "company": "Binance",
+    "careers_url": "https://www.binance.com/en/careers",
+    "coverage": "direct",
+    "sources": [
+      "lever:binance"
+    ]
+  },
+  {
+    "company": "Shopee",
+    "careers_url": "https://careers.shopee.sg/students",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Sea",
+    "careers_url": "https://career.sea.com/",
+    "coverage": "adzuna_optional",
+    "sources": [],
+    "adzuna_company": "Sea Limited"
+  },
+  {
+    "company": "Grab",
+    "careers_url": "https://www.grab.careers/en/teams/internships/",
+    "coverage": "direct",
+    "sources": [
+      "smartrecruiters:grab"
+    ]
+  },
+  {
+    "company": "GovTech",
+    "careers_url": "https://www.tech.gov.sg/careers/students-and-graduates/internships/",
+    "coverage": "adzuna_optional",
+    "sources": [],
+    "adzuna_company": "Government Technology Agency"
+  },
+  {
+    "company": "GIC",
+    "careers_url": "https://gic.careers/programmes/gic-internship-programme/",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Goldman Sachs",
+    "careers_url": "https://www.goldmansachs.com/careers/students",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "JPMorgan",
+    "careers_url": "https://www.jpmorganchase.com/careers/explore-opportunities/students-and-graduates",
+    "coverage": "adzuna_optional",
+    "sources": [],
+    "adzuna_company": "JPMorgan Chase"
+  },
+  {
+    "company": "Morgan Stanley",
+    "careers_url": "https://www.morganstanley.com/people-opportunities/students-graduates",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "UBS",
+    "careers_url": "https://www.ubs.com/global/en/careers/early-careers.html",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Tencent",
+    "careers_url": "https://careers.tencent.com/",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Airwallex",
+    "careers_url": "https://careers.airwallex.com/",
+    "coverage": "direct",
+    "sources": [
+      "ashby:airwallex"
+    ]
+  },
+  {
+    "company": "PayPal",
+    "careers_url": "https://careers.pypl.com/university-hiring/Asia-Pacific/default.aspx",
+    "coverage": "direct",
+    "sources": [
+      "workday:paypal"
+    ]
+  },
+  {
+    "company": "ServiceNow",
+    "careers_url": "https://careers.servicenow.com/early-careers/",
+    "coverage": "direct",
+    "sources": [
+      "smartrecruiters:servicenow"
+    ]
+  },
+  {
+    "company": "CrowdStrike",
+    "careers_url": "https://www.crowdstrike.com/en-us/careers/university-interns/",
+    "coverage": "direct",
+    "sources": [
+      "workday:crowdstrike"
+    ]
+  },
+  {
+    "company": "Crypto.com",
+    "careers_url": "https://crypto.com/sg/careers",
+    "coverage": "direct",
+    "sources": [
+      "lever:crypto"
+    ]
+  },
+  {
+    "company": "Cisco",
+    "careers_url": "https://careers.cisco.com/global/en/internships-and-co-ops",
+    "coverage": "direct",
+    "sources": [
+      "workday:cisco"
+    ]
+  },
+  {
+    "company": "Red Hat",
+    "careers_url": "https://www.redhat.com/en/jobs",
+    "coverage": "direct",
+    "sources": [
+      "workday:redhat"
+    ]
+  },
+  {
+    "company": "Foodpanda",
+    "careers_url": "https://careers.foodpanda.com/singapore",
+    "coverage": "direct",
+    "sources": [
+      "smartrecruiters:deliveryhero"
+    ]
+  },
+  {
+    "company": "CoinGecko",
+    "careers_url": "https://careers.coingecko.com/internships",
+    "coverage": "direct",
+    "sources": [
+      "lever:coingecko"
+    ]
+  },
+  {
+    "company": "Google",
+    "careers_url": "https://www.google.com/about/careers/applications/students/",
+    "coverage": "direct",
+    "sources": [
+      "google:google"
+    ]
+  },
+  {
+    "company": "NVIDIA",
+    "careers_url": "https://www.nvidia.com/en-us/about-nvidia/careers/university-recruiting/",
+    "coverage": "direct",
+    "sources": [
+      "workday:nvidia"
+    ]
+  },
+  {
+    "company": "Oracle",
+    "careers_url": "https://www.oracle.com/sg/careers/students-grads/",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Salesforce",
+    "careers_url": "https://www.salesforce.com/company/careers/university/",
+    "coverage": "direct",
+    "sources": [
+      "workday:salesforce"
+    ]
+  },
+  {
+    "company": "SAP",
+    "careers_url": "https://jobs.sap.com/content/students/",
+    "coverage": "direct",
+    "sources": [
+      "smartrecruiters:sapitbusinesssysteme"
+    ]
+  },
+  {
+    "company": "Workato",
+    "careers_url": "https://www.workato.com/careers",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:workato"
+    ]
+  },
+  {
+    "company": "Zendesk",
+    "careers_url": "https://www.zendesk.com/company/careers/",
+    "coverage": "direct",
+    "sources": [
+      "workday:zendesk"
+    ]
+  },
+  {
+    "company": "MongoDB",
+    "careers_url": "https://www.mongodb.com/company/careers/students-and-graduates",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:mongodb"
+    ]
+  },
+  {
+    "company": "Wise",
+    "careers_url": "https://wise.jobs/early-careers",
+    "coverage": "direct",
+    "sources": [
+      "smartrecruiters:wise"
+    ]
+  },
+  {
+    "company": "Visa",
+    "careers_url": "https://www.visa.com.sg/careers/university-recruiting.html",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Mastercard",
+    "careers_url": "https://careers.mastercard.com/us/en/students",
+    "coverage": "direct",
+    "sources": [
+      "workday:mastercard"
+    ]
+  },
+  {
+    "company": "Adyen",
+    "careers_url": "https://careers.adyen.com/career-types/student",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:adyen"
+    ]
+  },
+  {
+    "company": "Revolut",
+    "careers_url": "https://www.revolut.com/en-SG/internship-programme/",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "OKX",
+    "careers_url": "https://www.okx.com/en-sg/join-us/openings",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:okx"
+    ]
+  },
+  {
+    "company": "Ripple",
+    "careers_url": "https://ripple.com/careers/early-careers/",
+    "coverage": "direct",
+    "sources": [
+      "greenhouse:ripple"
+    ]
+  },
+  {
+    "company": "DBS",
+    "careers_url": "https://www.dbs.com/careers/internships/default.page",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "OCBC",
+    "careers_url": "https://www.ocbc.com/group/careers/students/index.page",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "UOB",
+    "careers_url": "https://www.uobgroup.com/careers/early-careers/index.page",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Standard Chartered",
+    "careers_url": "https://www.sc.com/en/global-careers/early-careers/",
+    "coverage": "adzuna_optional",
+    "sources": []
+  },
+  {
+    "company": "Citi",
+    "careers_url": "https://jobs.citi.com/early-careers",
+    "coverage": "direct",
+    "sources": [
+      "workday:citi"
+    ]
+  },
+  {
+    "company": "BlackRock",
+    "careers_url": "https://careers.blackrock.com/students-and-graduates",
+    "coverage": "direct",
+    "sources": [
+      "workday:blackrock"
+    ]
+  },
+  {
+    "company": "Manulife",
+    "careers_url": "https://careers.manulife.com/global/en/internship-co-op",
+    "coverage": "direct",
+    "sources": [
+      "workday:manulife"
+    ]
+  }
+]

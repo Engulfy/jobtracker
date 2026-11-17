@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Singapore tech early-career job tracker. No scraping/login required."""
+"""Singapore tech early-career job tracker using public employer career feeds."""
 from __future__ import annotations
 
 import argparse
 import csv
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from html import escape, unescape
 import hashlib
@@ -18,6 +19,7 @@ from typing import Any
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from job_sources import fetch_amazon, fetch_google, fetch_workday, fetch_recruitee
 
 ROOT = Path(__file__).resolve().parent
 LOGGER = logging.getLogger("sg-jobs")
@@ -27,16 +29,16 @@ HEADERS = {"User-Agent": "SGTechEarlyCareerTracker/1.0 (personal monitoring)", "
 # Match technologies in the actual job title, rather than any incidental skills
 # mentioned in a non-technical job's description.
 TECH = re.compile(
-    r"\b(?:software|developer|development|programmer|full[ -]?stack|front[ -]?end|back[ -]?end|"
+    r"\b(?:software|developer|programmer|full[ -]?stack|front[ -]?end|back[ -]?end|"
     r"site reliability|\bsre\b|devops|cloud|platform|infrastructure|\binfra\b|"
     r"cyber(?:security)?|security|penetration|vulnerabilit\w*|malware|"
     r"data (?:science|scientist|engineering|engineer|analyst|analytics)|"
     r"machine learning|\bml\b|\bai\b|artificial intelligence|deep learning|"
     r"computer vision|\bllm\b|\bgenai\b|automation|robotic\w*|"
     r"(?:test|quality assurance|\bqa\b) engineer|embedded|firmware|"
-    r"systems? engineer|network engineer|quant(?:itative)? (?:developer|researcher|engineer)|"
+    r"systems? engineer|network engineer|quant(?:itative)? (?:developer|research(?:er)?|engineer|trading|trader|analyst)|"
     r"research engineer|research scientist|applied scientist|product engineer|product manager|product management|technical product|product design|"
-    r"ui\s*[/&-]\s*ux|user experience|technology analyst|technology consultant|"
+    r"ui\s*[/&-]\s*ux|user experience|technology analyst|technology consultant|technology (?:intern|graduate|trainee)|"
     r"technical analyst|information technology|\bit\b (?:engineer|analyst|support)|"
     r"solutions? engineer|mobile engineer|\bios\b developer|android developer|"
     r"cloud computing|linux|big data|database|algorithm\w*|blockchain|hardware|fpga|semiconductor|computer science|information systems|"
@@ -61,6 +63,9 @@ SENIOR = re.compile(r"\b(?:senior|sr\.?|staff|principal|lead|director|head of|vp
 SG = re.compile(r"\bsingapore\b|\bsg\b", re.I)
 TAG = re.compile(r"<[^>]+>")
 SPACE = re.compile(r"\s+")
+EARLY_EXPERIENCE = re.compile(
+    r"\b(?:[01]\s*(?:-|–|to)\s*[123]|[012])\s*\+?\s*years?\s+(?:of\s+)?"
+    r"(?:(?:relevant|professional|work|industry|software|engineering)\s+){0,3}experience\b", re.I)
 
 
 def tidy(s: Any) -> str:
@@ -109,7 +114,11 @@ def fetch_greenhouse(session: requests.Session, source: dict) -> list[dict]:
                  description=tidy(j.get("content", "")),
                  url=j.get("absolute_url", ""),
                  posted_at="", updated_at=iso_utc(j.get("updated_at")),
-                 employment_type="") for j in payload["jobs"] if j.get("id")]
+                 employment_type=" ".join(str(m.get("value") or "") for m in j.get("metadata") or []
+                                          if m.get("name", "").lower() in {"employment type", "job type"}),
+                 experience_level=" ".join(str(m.get("value") or "") for m in j.get("metadata") or []
+                                           if m.get("name", "").lower() in {"experience level", "job type"}))
+            for j in payload["jobs"] if j.get("id")]
 
 
 def fetch_lever(session: requests.Session, source: dict) -> list[dict]:
@@ -179,14 +188,32 @@ def fetch_smartrecruiters(session: requests.Session, source: dict) -> list[dict]
         if not isinstance(payload, dict) or not isinstance(payload.get("content"), list):
             raise ValueError("Unexpected SmartRecruiters response")
         rows = payload["content"]
+        def description_for(j: dict) -> tuple[str, str]:
+            loc = j.get("location") or {}
+            location = ", ".join(str(loc.get(k) or "") for k in ("city", "region", "country"))
+            title = j.get("name") or ""
+            if not SG.search(location) or not TECH.search(title) or SENIOR.search(title):
+                return str(j["id"]), ""
+            # Explicit internship/graduate metadata already supplies eligibility.
+            metadata = " ".join(str(j.get(k) or "") for k in ("experienceLevel", "typeOfEmployment"))
+            if INTERNSHIP.search(title + " " + metadata) or GRAD_TITLE.search(title + " " + metadata) or ENTRY_I.search(title):
+                return str(j["id"]), ""
+            detail = get_json(session, f"https://api.smartrecruiters.com/v1/companies/{slug}/postings/{j['id']}")
+            sections = (detail.get("jobAd") or {}).get("sections") or {}
+            return str(j["id"]), tidy(" ".join(str(v.get("text") or "") for v in sections.values() if isinstance(v, dict)))
+
+        # Bound parallel requests so larger boards still fit the workflow timeout.
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            descriptions = dict(pool.map(description_for, rows))
         for j in rows:
             loc = j.get("location") or {}
             parts = [loc.get("city") or "", loc.get("region") or "", loc.get("country") or ""]
+            description = descriptions[str(j["id"])]
             url = j.get("jobAdUrl") or j.get("applyUrl") or f"https://jobs.smartrecruiters.com/{slug}/{j['id']}"
             out.append(dict(uid=f"smartrecruiters:{slug.lower()}:{j['id']}",
                             company=source["company"], provider="SmartRecruiters",
                             source=f"smartrecruiters:{slug.lower()}", title=j.get("name") or "",
-                            location=", ".join(x for x in parts if x), description="",
+                            location=", ".join(x for x in parts if x), description=description,
                             url=url, posted_at=iso_utc(j.get("releasedDate")),
                             updated_at="", employment_type=(j.get("typeOfEmployment") or {}).get("label", "")
                             if isinstance(j.get("typeOfEmployment"), dict) else j.get("typeOfEmployment", ""),
@@ -204,11 +231,14 @@ def fetch_adzuna(session: requests.Session, config: dict) -> list[dict]:
         LOGGER.info("Adzuna skipped: add ADZUNA_APP_ID and ADZUNA_APP_KEY to expand coverage")
         return []
     all_rows = []
-    for query in config.get("adzuna_queries", []):
+    searches = [(query, {}) for query in config.get("adzuna_queries", [])]
+    searches += [(f"employer: {company}", {"company": company}) for company in config.get("adzuna_companies", [])]
+    for query, employer_filter in searches:
         try:
             payload = get_json(session, "https://api.adzuna.com/v1/api/jobs/sg/search/1", {
                 "app_id": app_id, "app_key": app_key, "results_per_page": 50,
-                "what": query, "where": "Singapore", "sort_by": "date", "content-type": "application/json",
+                "what": "" if employer_filter else query, "where": "Singapore", "sort_by": "date", "content-type": "application/json",
+                **employer_filter,
             })
             if not isinstance(payload, dict) or not isinstance(payload.get("results"), list):
                 raise ValueError("Unexpected Adzuna response")
@@ -240,6 +270,7 @@ def eligible(job: dict) -> bool:
         job["category"] = "Internship"
         return True
     if (GRAD_TITLE.search(title) or ENTRY_I.search(title) or GRAD_DESCRIPTION.search(description)
+            or EARLY_EXPERIENCE.search(description)
             or GRAD_TITLE.search(str(job.get("experience_level") or ""))):
         job["category"] = "New grad / entry-level"
         return True
@@ -361,6 +392,7 @@ def alert_jobs(session: requests.Session, db: dict, config: dict, notify: bool) 
         msg = header + "\n".join(top_lines) + suffix
         telegram_message(session, token, chat_id, msg)
         db["initial_digest_sent"] = True
+        db["last_summary_at"] = db.get("last_scan") or datetime.now(UTC).isoformat(timespec="seconds")
         for j in db["jobs"].values():
             j["notified"] = True
         LOGGER.info("Initial digest delivered")
@@ -380,6 +412,21 @@ def alert_jobs(session: requests.Session, db: dict, config: dict, notify: bool) 
         time.sleep(0.5)
     if pending:
         LOGGER.info("Delivered %d new/reopened job alerts", len(pending))
+    now = datetime.fromisoformat(db.get("last_scan") or datetime.now(UTC).isoformat())
+    previous = db.get("last_summary_at")
+    interval = float(config.get("summary_interval_hours", 24))
+    if interval > 0 and (not previous or now - datetime.fromisoformat(previous) >= timedelta(hours=interval)):
+        recent = sum(datetime.fromisoformat(j["first_seen"]) >= now - timedelta(hours=24) for j in active)
+        internships = sum(j.get("category") == "Internship" for j in active)
+        health = db.get("source_health", {})
+        message = (f"<b>Singapore tech jobs — daily update</b>\n"
+                   f"{len(active)} open roles: {internships} internships, {len(active) - internships} graduate / entry-level.\n"
+                   f"{recent} open roles discovered in the past 24 hours.\n"
+                   f"Employer feeds checked successfully: {health.get('succeeded', '?')}/{health.get('total', '?')}.\n")
+        if health.get("failed"):
+            message += "Some feeds failed; existing listings were preserved.\n"
+        telegram_message(session, token, chat_id, message + suffix)
+        db["last_summary_at"] = now.isoformat(timespec="seconds")
 
 
 def atomic_json(path: Path, obj: Any) -> None:
@@ -408,7 +455,10 @@ def run(config: dict, notify: bool) -> None:
     now = datetime.now(UTC).isoformat(timespec="seconds")
     db = load_state(ROOT / "data" / "jobs.json")
     fetched, succeeded = [], set()
-    providers = {"greenhouse": fetch_greenhouse, "lever": fetch_lever, "ashby": fetch_ashby, "smartrecruiters": fetch_smartrecruiters}
+    providers = {"greenhouse": fetch_greenhouse, "lever": fetch_lever, "ashby": fetch_ashby,
+                 "smartrecruiters": fetch_smartrecruiters,
+                 "workday": lambda session, source: fetch_workday(session, source, lambda title: TECH.search(title) and not SENIOR.search(title)),
+                 "amazon": fetch_amazon, "google": fetch_google, "recruitee": fetch_recruitee}
     for source in config["sources"]:
         key = f"{source['type']}:{source['slug'].lower()}"
         try:
@@ -438,6 +488,9 @@ def run(config: dict, notify: bool) -> None:
         job.pop("description", None)
         job.pop("experience_level", None)
     changes = reconcile(db, fetched, succeeded, now, config)
+    db["source_health"] = {"succeeded": len(succeeded), "total": len(config["sources"]),
+                           "failed": [f"{s['type']}:{s['slug'].lower()}" for s in config["sources"]
+                                      if f"{s['type']}:{s['slug'].lower()}" not in succeeded]}
     LOGGER.info("Matched %d unique jobs; %d new/reopened; %d stored total", len(fetched), len(changes), len(db["jobs"]))
     try:
         alert_jobs(session, db, config, notify)

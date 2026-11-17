@@ -75,6 +75,302 @@
       "type": "smartrecruiters",
       "slug": "BoschGroup",
       "company": "Bosch"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "stripe",
+      "company": "Stripe"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "datadog",
+      "company": "Datadog"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "cloudflare",
+      "company": "Cloudflare"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "mongodb",
+      "company": "MongoDB"
+    },
+    {
+      "type": "lever",
+      "slug": "crypto",
+      "company": "Crypto.com"
+    },
+    {
+      "type": "ashby",
+      "slug": "Simular",
+      "company": "Simular"
+    },
+    {
+      "type": "ashby",
+      "slug": "GoVenti",
+      "company": "Venti Technologies"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "rubrik",
+      "company": "Rubrik"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "purestorage",
+      "company": "Pure Storage"
+    },
+    {
+      "type": "amazon",
+      "slug": "amazon",
+      "company": "Amazon / AWS"
+    },
+    {
+      "type": "google",
+      "slug": "google",
+      "company": "Google"
+    },
+    {
+      "type": "workday",
+      "slug": "nvidia",
+      "cluster": "wd5",
+      "site": "NVIDIAExternalCareerSite",
+      "company": "NVIDIA"
+    },
+    {
+      "type": "workday",
+      "slug": "salesforce",
+      "cluster": "wd12",
+      "site": "External_Career_Site",
+      "company": "Salesforce"
+    },
+    {
+      "type": "workday",
+      "slug": "adobe",
+      "cluster": "wd5",
+      "site": "external_experienced",
+      "company": "Adobe"
+    },
+    {
+      "type": "workday",
+      "slug": "intel",
+      "cluster": "wd1",
+      "site": "External",
+      "company": "Intel"
+    },
+    {
+      "type": "workday",
+      "slug": "hp",
+      "cluster": "wd5",
+      "site": "ExternalCareerSite",
+      "company": "HP"
+    },
+    {
+      "type": "workday",
+      "slug": "hpe",
+      "cluster": "wd5",
+      "site": "Jobsathpe",
+      "company": "HPE"
+    },
+    {
+      "type": "workday",
+      "slug": "autodesk",
+      "cluster": "wd1",
+      "site": "Ext",
+      "company": "Autodesk"
+    },
+    {
+      "type": "workday",
+      "slug": "paypal",
+      "cluster": "wd1",
+      "site": "jobs",
+      "company": "PayPal"
+    },
+    {
+      "type": "workday",
+      "slug": "cisco",
+      "cluster": "wd5",
+      "site": "Cisco_Careers",
+      "company": "Cisco"
+    },
+    {
+      "type": "workday",
+      "slug": "sec",
+      "cluster": "wd3",
+      "site": "Samsung_Careers",
+      "company": "Samsung"
+    },
+    {
+      "type": "workday",
+      "slug": "micron",
+      "cluster": "wd1",
+      "site": "External",
+      "company": "Micron"
+    },
+    {
+      "type": "workday",
+      "slug": "broadcom",
+      "cluster": "wd1",
+      "site": "External_Career",
+      "company": "Broadcom"
+    },
+    {
+      "type": "workday",
+      "slug": "workday",
+      "cluster": "wd5",
+      "site": "Workday",
+      "company": "Workday"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "janestreet",
+      "company": "Jane Street"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "wehrtyou",
+      "company": "HRT"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "jumptrading",
+      "company": "Jump Trading"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "optiverus",
+      "company": "Optiver"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "quberesearchandtechnologies",
+      "company": "QRT"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "squarepointcapital",
+      "company": "Squarepoint"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "virtu",
+      "company": "Virtu"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "point72",
+      "company": "Point72"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "mw-tech-grad",
+      "company": "Marshall Wace"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "mwinternshipprogram",
+      "company": "Marshall Wace"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "coinbase",
+      "company": "Coinbase"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "workato",
+      "company": "Workato"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "ripple",
+      "company": "Ripple"
+    },
+    {
+      "type": "greenhouse",
+      "slug": "adyen",
+      "company": "Adyen"
+    },
+    {
+      "type": "lever",
+      "slug": "binance",
+      "company": "Binance"
+    },
+    {
+      "type": "lever",
+      "slug": "coingecko",
+      "company": "CoinGecko"
+    },
+    {
+      "type": "smartrecruiters",
+      "slug": "ServiceNow",
+      "company": "ServiceNow"
+    },
+    {
+      "type": "smartrecruiters",
+      "slug": "Wise",
+      "company": "Wise"
+    },
+    {
+      "type": "smartrecruiters",
+      "slug": "DeliveryHero",
+      "company": "Foodpanda"
+    },
+    {
+      "type": "workday",
+      "slug": "crowdstrike",
+      "cluster": "wd5",
+      "site": "crowdstrikecareers",
+      "company": "CrowdStrike"
+    },
+    {
+      "type": "workday",
+      "slug": "redhat",
+      "cluster": "wd5",
+      "site": "jobs",
+      "company": "Red Hat"
+    },
+    {
+      "type": "workday",
+      "slug": "mastercard",
+      "cluster": "wd1",
+      "site": "CorporateCareers",
+      "company": "Mastercard"
+    },
+    {
+      "type": "workday",
+      "slug": "blackrock",
+      "cluster": "wd1",
+      "site": "BlackRock_Professional",
+      "company": "BlackRock"
+    },
+    {
+      "type": "workday",
+      "slug": "manulife",
+      "cluster": "wd3",
+      "site": "MFCJH_Jobs",
+      "company": "Manulife"
+    },
+    {
+      "type": "workday",
+      "slug": "zendesk",
+      "cluster": "wd1",
+      "site": "zendesk",
+      "company": "Zendesk"
+    },
+    {
+      "type": "workday",
+      "slug": "citi",
+      "cluster": "wd5",
+      "site": "2",
+      "company": "Citi"
+    },
+    {
+      "type": "recruitee",
+      "slug": "opengovernmentproducts",
+      "base_url": "https://careers.open.gov.sg",
+      "company": "OGP"
     }
   ],
   "adzuna_queries": [
@@ -87,6 +383,59 @@
     "data engineer intern",
     "data scientist intern",
     "machine learning intern",
-    "technology graduate"
+    "technology graduate",
+    "junior software engineer",
+    "graduate data analyst",
+    "IT support graduate",
+    "QA engineer intern",
+    "product management intern",
+    "embedded engineer graduate"
+  ],
+  "summary_interval_hours": 24,
+  "adzuna_companies": [
+    "Microsoft",
+    "Meta",
+    "Apple",
+    "TikTok",
+    "ByteDance",
+    "Shopee",
+    "Sea",
+    "Lazada",
+    "Alibaba",
+    "Tencent",
+    "Oracle",
+    "IBM",
+    "Dell",
+    "AMD",
+    "Qualcomm",
+    "ServiceNow",
+    "Netflix",
+    "Spotify",
+    "Snap",
+    "Snowflake",
+    "Databricks",
+    "Salesforce",
+    "Adobe",
+    "NVIDIA",
+    "Amazon",
+    "Google",
+    "Samsung",
+    "Micron",
+    "Broadcom",
+    "Citadel",
+    "LinkedIn",
+    "Sea Limited",
+    "Government Technology Agency",
+    "GIC",
+    "Goldman Sachs",
+    "JPMorgan Chase",
+    "Morgan Stanley",
+    "UBS",
+    "Visa",
+    "Revolut",
+    "DBS",
+    "OCBC",
+    "UOB",
+    "Standard Chartered"
   ]
 }
