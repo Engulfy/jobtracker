@@ -482,8 +482,15 @@ def run(config: dict, notify: bool) -> None:
     if not succeeded and not fetched:
         raise RuntimeError("No job sources returned data successfully. State unchanged; see source warnings above.")
     fetched = dedupe_run(fetched)
-    # Keep long descriptions in memory only for eligibility checks. Avoid bloating
-    # the persistent database and Git history every four hours.
+    # Optional private cache for the agent; never included in public exports.
+    if os.getenv("JOB_AGENT_CACHE") == "1":
+        cache_path = Path(os.getenv("JOB_AGENT_HOME", str(ROOT / "private"))) / "descriptions.json"
+        cache = json.loads(cache_path.read_text(encoding="utf-8")) if cache_path.exists() else {}
+        for job in fetched:
+            cache[job["uid"]] = {"description": job.get("description", "")[:24000],
+                                  "fetched_at": now}
+        atomic_json(cache_path, cache)
+    # Keep long descriptions out of the public database and Git history.
     for job in fetched:
         job.pop("description", None)
         job.pop("experience_level", None)

@@ -1,5 +1,10 @@
 # Singapore Tech Job Tracker 🇸🇬
 
+**Free cloud AI agent:** See [AGENT.md](AGENT.md) for Gemini free-tier matching,
+Telegram conversations, application tracking, and private cover letter drafts on
+GitHub Actions. Your laptop can be off. Start with `python agent.py init` and follow
+the cloud activation steps. No OpenAI credits are required.
+
 Automated, no-login tracker for Singapore-based tech **internships, new-graduate and entry-level jobs**.
 
 - **First run:** imports existing matching positions into a database and sends a single Telegram roundup of up to 15 highlights.
